@@ -38,12 +38,13 @@ src="https://www.facebook.com/tr?id=1543558707101407&ev=PageView&noscript=1"
     --card-border: rgba(247,245,236,0.09);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden; width:100%;}
   body{
     background:var(--ink);
     color:var(--paper);
     font-family:'Manrope', sans-serif;
     overflow-x:hidden;
+    width:100%;
   }
   img{max-width:100%; display:block;}
   a{color:inherit;}
@@ -72,6 +73,8 @@ src="https://www.facebook.com/tr?id=1543558707101407&ev=PageView&noscript=1"
     white-space:nowrap;
     padding:10px 0;
     border-bottom:3px solid var(--ink);
+    width:100%;
+    contain:paint;
   }
   .ticker-track{
     display:inline-block;
