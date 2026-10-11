@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Thank you | The Character School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1543558707101407');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1543558707101407&ev=PageView&noscript=1"></noscript>
+<!-- End Meta Pixel -->
+
+<style>
+  :root{
+    --ink:#0a1830; --gold:#f2b632; --paper:#f6f7f4; --text:#1b2a28; --muted:#55645f; --line:#dfe4de;
+    --display:"Bricolage Grotesque","Segoe UI",Arial,sans-serif;
+    --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;display:flex;flex-direction:column;font-family:var(--body);font-size:18px;line-height:1.6;color:var(--text);background:var(--ink);-webkit-font-smoothing:antialiased}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  main{flex:1;display:grid;place-items:center;padding:32px 20px}
+  .card{width:min(480px,100%);background:var(--paper);border-radius:16px;padding:40px 32px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,6vw,36px);line-height:1.1;letter-spacing:-.3px;margin-bottom:12px}
+  p{color:var(--muted);margin-bottom:24px}
+  label{display:block;font-family:var(--display);font-weight:700;font-size:16px;color:var(--text);margin-bottom:8px}
+  input[type=email]{width:100%;font:inherit;font-size:18px;padding:15px 16px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--text)}
+  input[type=email]:focus{border-color:var(--ink)}
+  button{margin-top:16px;width:100%;font-family:var(--display);font-weight:800;font-size:19px;background:var(--gold);color:#201400;padding:16px;border:0;border-radius:10px;cursor:pointer;transition:background .15s}
+  button:hover{background:#ffc94d}
+  button:disabled{opacity:.6;cursor:default}
+  .err{color:#b3261e;font-size:15px;margin-top:10px;min-height:1.2em}
+  .done{display:none;text-align:center}
+  .done .tick{width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--gold);display:grid;place-items:center;margin:0 auto 20px}
+  .done .tick svg{width:30px;height:30px}
+  .done p{margin-bottom:0}
+  .card.sent form{display:none}
+  .card.sent .done{display:block}
+  .card.sent .ask{display:none}
+</style>
+</head>
+<body>
+<main>
+  <div class="card" id="card">
+    <div class="ask">
+      <h1>Payment received. Thank you!</h1>
+      <p>Enter your email address below to complete your order.</p>
+    </div>
+
+    <form id="form" novalidate>
+      <label for="email">Email address</label>
+      <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+      <div class="err" id="err" role="alert"></div>
+      <button type="submit" id="btn">Submit</button>
+    </form>
+
+    <div class="done" role="status">
+      <div class="tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.8 2.8L10 3.2"/></svg></div>
+      <h1>Thank you!</h1>
+      <p>We have received your email address.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  /* ---------- SETTINGS ---------- */
+  var PIXEL_ID = "1543558707101407";
+  var PURCHASE_VALUE = 5000;
+  var PURCHASE_CURRENCY = "NGN";
+  // Where the email gets saved: your Google Sheet (Apps Script web app).
+  var FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxo2qmFwm5RbftvRwi3t4Grd5zcd0ePQgeBp48fDTbIr-i9JeI2eoXNraHRJyhHUjhIlg/exec";
+  /* ------------------------------- */
+
+  var form = document.getElementById("form");
+  var input = document.getElementById("email");
+  var err = document.getElementById("err");
+  var btn = document.getElementById("btn");
+  var card = document.getElementById("card");
+  var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var email = input.value.trim().toLowerCase();
+    if(!re.test(email)){
+      err.textContent = "Please enter a valid email address.";
+      input.focus();
+      return;
+    }
+    err.textContent = "";
+    btn.disabled = true;
+
+    // 1) Meta: attach the email (Meta hashes it) so the sale can be matched, then fire Purchase once
+    try{
+      var already = false;
+      try{ already = sessionStorage.getItem("purchase_sent") === "1"; }catch(x){}
+      if(window.fbq && !already){
+        fbq("init", PIXEL_ID, {em: email});
+        fbq("track", "Purchase", {
+          value: PURCHASE_VALUE,
+          currency: PURCHASE_CURRENCY,
+          content_name: "The Faith of Benson Idahosa",
+          content_type: "product",
+          content_ids: ["faith-of-benson-idahosa"]
+        }, {eventID: "purchase_" + Date.now()});
+        try{ sessionStorage.setItem("purchase_sent","1"); }catch(x){}
+      }
+    }catch(x){}
+
+    // 2) Save the email (does not block the thank-you message)
+    if(FORM_ENDPOINT){
+      try{
+        fetch(FORM_ENDPOINT, {
+          method:"POST",
+          mode:"no-cors",
+          headers:{"Content-Type":"application/x-www-form-urlencoded"},
+          body:"email=" + encodeURIComponent(email) + "&source=charsch-thank-you-page"
+        });
+      }catch(x){}
+    }
+
+    // 3) Show thank you
+    card.classList.add("sent");
+  });
+})();
+</script>
+</body>
+</html>
